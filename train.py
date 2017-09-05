@@ -25,7 +25,7 @@ def main():
     parser.add_argument('--emb_dim', type=int, default=32, help='embedding size for each word [default: 32]')
     parser.add_argument('--hid_dim', type=int, default=32, help='hidden state size for both encoder and decoder [default: 32]')
     parser.add_argument('--vocab_size', type=int, default=10000, help='vocabulary size [default: 10000]')
-    parser.add_argument('--maxout_dim', type=int, default=5, help='maxout size')
+    parser.add_argument('--maxout_dim [default: 5]', type=int, default=5, help='maxout size')
     args = parser.parse_args()
 
     vocab_size = args.vocab_size
