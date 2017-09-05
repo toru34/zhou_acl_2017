@@ -1,7 +1,7 @@
 # toru34
 *.ipynb
 .DS_Store
-*data
+data/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
