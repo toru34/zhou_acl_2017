@@ -27,4 +27,4 @@ python train.py --n_epochs 10 --batch_size 32 --emb_dim 64 --hid_dim 64 --vocab_
 Work in progress
 
 References
-- Q. Zhou. 2017. Selective Encoding for Abstractive Sentence Summarization. In Proceedings of ACL 2017
+- Q. Zhou. et al. 2017. Selective Encoding for Abstractive Sentence Summarization. In Proceedings of ACL 2017 \[[pdf\]](http://aclweb.org/anthology/P/P17/P17-1101.pdf)
