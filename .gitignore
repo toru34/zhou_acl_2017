@@ -2,6 +2,10 @@
 *.ipynb
 .DS_Store
 data/*
+*.data
+*.meta
+*.swp
+*.dump
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
