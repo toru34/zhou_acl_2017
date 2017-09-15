@@ -7,6 +7,8 @@ data/*
 *.swp
 *.dump
 tmp.py
+*.gz
+sumdata/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

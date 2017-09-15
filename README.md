@@ -22,12 +22,12 @@ sh download.sh
 - `--n_train`: Number of training examples (up to 3803957 in gigaword) [default: 100000]
 - `--n_valid`: Number of validation examples (up to 189651 in gigaword) [default: 100]
 - `--n_epochs`: Number of epochs for training [default: 20]
-- `--batch_size`: Batch size for training [default: 16]
+- `--batch_size`: Batch size for training [default: 32]
 - `--emb_dim`: Embedding size for each word [default: 256]
 - `--hid_dim`: Hidden state for both encoder and decoder [default: 256]
 - `--vocab_size`: Vocabulary size [default: 60000]
 - `--maxout_dim`: Maxout size [default: 5]
-- `--alloc_mem`: Amount of memory to allocate[mb] [default: 4096]
+- `--alloc_mem`: Amount of memory to allocate[mb] [default: 8192]
 
 ### How to train (example)
 ```
