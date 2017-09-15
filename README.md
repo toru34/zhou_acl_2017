@@ -32,7 +32,7 @@ sh download.sh
 ### How to train
 For example, run
 ```
-python train.py --n_epochs 20
+python train.py --n_epochs 20 --gpu 0
 ```
 , and then you get `model.data`, `model.meta`, `w2i.dump` and `i2w.dump`.
 
@@ -51,7 +51,7 @@ python train.py --n_epochs 20
 
 ### How to test (example)
 ```
-python test.py --beam_size 10
+python test.py --beam_size 10 --gpu 0
 ```
 
 ### Reference
