@@ -35,7 +35,7 @@ sh download.sh
 
 ### How to train (example)
 ```
-python train.py --n_epochs 10 --batch_size 32 --emb_dim 64 --hid_dim 64 --vocab_size 30000 --maxout_size 10
+python train.py --n_epochs 5
 ```
 
 ### How to test (example)

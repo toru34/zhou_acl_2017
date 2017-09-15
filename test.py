@@ -36,7 +36,7 @@ def main():
     test_X, _, _ = build_dataset(INPUT_FILE, w2i=w2i)
 
     # # Use small dataset
-    # test_X = test_X[:50]
+    #test_X = test_X[:50]
 
     model = dy.Model()
     encoder, decoder, V = dy.load(MODEL_FILE, model)
