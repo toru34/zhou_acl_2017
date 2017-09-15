@@ -13,9 +13,14 @@ To get gigaward corpus, run
 ```
 sh download.sh
 ```
-, or you can use your own corpus.
+. Or you can use your own corpus.
 
-### Arguments for training
+### Training
+
+#### Arguments for training
+- `--gpu`: GPU id to use. For cpu, set -1 [default: -1]
+- `--n_train`: Number of training examples (up to 3803957 in gigaword) [default: 100000]
+- `--n_valid`: Number of validation examples (up to 189651 in gigaword) [default: 100]
 - `--n_epochs`: Number of epochs for training [default: 3]
 - `--batch_size`: Batch size for training [default: 16]
 - `--emb_dim`: Embedding size for each word [default: 32]
@@ -24,7 +29,17 @@ sh download.sh
 - `--maxout_dim`: Maxout size [default: 5]
 - `--alloc_mem`: Amount of memory to allocate[mb] [default: 1024]
 
-### Arguments for test
+### How to train
+For example, run
+```
+python train.py --n_epochs 20
+```
+, and then you get `model.data`, `model.meta`, `w2i.dump` and `i2w.dump`.
+
+### Test
+#### Arguments for test
+- `--gpu`: GPU id to use. For cpu, set -1 [default: -1]
+- `--n_test`: Number of test examples [default: 100]
 - `--beam_size`: Beam size for decoding [default: 5]
 - `--max_len`: Maximum length of decoding [default: 50]
 - `--model_file`: Model to use for generation [default: ./model]
@@ -32,11 +47,7 @@ sh download.sh
 - `--output_file`: Output file path [default: ./data/pred.txt]
 - `--w2i_file`: Word2Index file path [default: ./w2i.dump]
 - `--i2w_file`: Index2Word file path [default: ./i2w.dump]
-
-### How to train (example)
-```
-python train.py --n_epochs 5
-```
+- `--alloc_mem`: Amount of memory to allocate[mb] [default: 1024]
 
 ### How to test (example)
 ```

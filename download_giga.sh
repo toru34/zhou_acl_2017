@@ -12,5 +12,3 @@ gzip -d ./sumdata/train/*.gz
 # Move
 mkdir data
 mv ./sumdata/train/* ./data/
-rm summary.tar.gz
-rm -rf sumdata
