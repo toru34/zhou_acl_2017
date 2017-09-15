@@ -60,8 +60,8 @@ def main():
     valid_y, _, _ = build_dataset('./data/valid.title.filter.txt', w2i=w2i, target=True)
 
     # # Use small dataset
-    # train_X, train_y = train_X[:1000], train_y[:1000]
-    # valid_X, valid_y = valid_X[:10], valid_y[:10]
+    #train_X, train_y = train_X[:1000], train_y[:1000]
+    valid_X, valid_y = valid_X[:100], valid_y[:100]
 
     vocab_size = len(w2i)
 
