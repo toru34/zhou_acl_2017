@@ -40,14 +40,14 @@ def main():
     dyparams.init()
 
     # Build dataset ================================================================================
-    w2c = build_word2count('./data/train_x.txt')
-    w2c = build_word2count('./data/train_y.txt', w2c)
+    w2c = build_word2count('./data/train.article.txt')
+    w2c = build_word2count('./data/train.title.txt', w2c)
 
-    train_X, w2i, i2w = build_dataset('./data/train_x.txt', vocab_size=vocab_size, w2c=w2c, target=False)
-    train_y, _, _ = build_dataset('./data/train_y.txt', w2i=w2i, target=True)
+    train_X, w2i, i2w = build_dataset('./data/train.article.txt', vocab_size=vocab_size, w2c=w2c, target=False)
+    train_y, _, _ = build_dataset('./data/train.title.txt', w2i=w2i, target=True)
 
-    valid_X, _, _ = build_dataset('./data/valid_x.txt', w2i=w2i, target=False)
-    valid_y, _, _ = build_dataset('./data/valid_y.txt', w2i=w2i, target=True)
+    valid_X, _, _ = build_dataset('./data/valid.article.filter.txt', w2i=w2i, target=False)
+    valid_y, _, _ = build_dataset('./data/valid.title.filter.txt', w2i=w2i, target=True)
 
     # # Use small dataset
     # train_X, train_y = train_X[:1000], train_y[:1000]

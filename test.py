@@ -14,7 +14,7 @@ def main():
     parser.add_argument('--beam_size', type=int, default=5, help='beam size for decoding [default: 5]')
     parser.add_argument('--max_len', type=int, default=50, help='maximum length of decoding')
     parser.add_argument('--model_file', type=str, default='./model', help='model to use for generation [default: ./model]')
-    parser.add_argument('--input_file', type=str, default='./data/valid_x.txt', help='input file path [default: ./data/valid_x.txt]')
+    parser.add_argument('--input_file', type=str, default='./data/valid.article.filter.txt', help='input file path [default: ./data/valid.article.filter.txt]')
     parser.add_argument('--output_file', type=str, default='./pred_y.txt', help='output file path [default: ./pred_y.txt]')
     parser.add_argument('--w2i_file', type=str, default='./w2i.dump', help='w2i file path [default: ./w2i.dump]')
     parser.add_argument('--i2w_file', type=str, default='./i2w.dump', help='i2w file path [default: ./i2w.dump]')

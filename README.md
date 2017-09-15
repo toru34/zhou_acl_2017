@@ -28,7 +28,7 @@ sh download.sh
 - `--beam_size`: Beam size for decoding [default: 5]
 - `--max_len`: Maximum length of decoding [default: 50]
 - `--model_file`: Model to use for generation [default: ./model]
-- `--input_file`: Input file path [default: ./data/input.txt]
+- `--input_file`: Input file path [default: ./data/valid.article.filter.txt]
 - `--output_file`: Output file path [default: ./data/pred.txt]
 - `--w2i_file`: Word2Index file path [default: ./w2i.dump]
 - `--i2w_file`: Index2Word file path [default: ./i2w.dump]
