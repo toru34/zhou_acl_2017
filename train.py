@@ -16,13 +16,15 @@ def main():
     parser = argparse.ArgumentParser(description='Selective Encoding for Abstractive Sentence Summarization in DyNet')
 
     parser.add_argument('--gpu', type=int, default=-1, help='gpu id to use. for cpu, set -1 [default: -1]')
-    parser.add_argument('--n_epochs', type=int, default=3, help='number of epochs for training [default: 3]')
+    parser.add_argument('--n_train', type=int, default=100000, help='number of training examples (up to 3803957 in gigaword) [default: 100000]')
+    parser.add_argument('--n_valid', type=int, default=100, help='number of validation examples (up to 189651 in gigaword) [default: 100]')
+    parser.add_argument('--n_epochs', type=int, default=10, help='number of epochs for training [default: 3]')
     parser.add_argument('--batch_size', type=int, default=16, help='batch size for training [default: 16]')
-    parser.add_argument('--emb_dim', type=int, default=32, help='embedding size for each word [default: 32]')
-    parser.add_argument('--hid_dim', type=int, default=32, help='hidden state size [default: 32]')
+    parser.add_argument('--emb_dim', type=int, default=256, help='embedding size for each word [default: 32]')
+    parser.add_argument('--hid_dim', type=int, default=256, help='hidden state size [default: 32]')
     parser.add_argument('--vocab_size', type=int, default=10000, help='vocabulary size [default: 10000]')
     parser.add_argument('--maxout_dim', type=int, default=5, help='maxout size [default: 5]')
-    parser.add_argument('--alloc_mem', type=int, default=1024, help='amount of memory to allocate[mb] [default: 1024]')
+    parser.add_argument('--alloc_mem', type=int, default=4096, help='amount of memory to allocate[mb] [default: 1024]')
     args = parser.parse_args()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
@@ -35,6 +37,8 @@ def main():
     from layers import SelectiveBiGRU, AttentionalGRU
 
     vocab_size = args.vocab_size
+    N_TRAIN = args.n_train
+    N_VALID = args.n_valid
     EMB_DIM = args.emb_dim
     HID_DIM = args.hid_dim
     BATCH_SIZE = args.batch_size
@@ -59,9 +63,9 @@ def main():
     valid_X, _, _ = build_dataset('./data/valid.article.filter.txt', w2i=w2i, target=False)
     valid_y, _, _ = build_dataset('./data/valid.title.filter.txt', w2i=w2i, target=True)
 
-    # # Use small dataset
-    #train_X, train_y = train_X[:1000], train_y[:1000]
-    valid_X, valid_y = valid_X[:100], valid_y[:100]
+    # Use small dataset
+    train_X, train_y = train_X[:N_TRAIN], train_y[:N_TRAIN]
+    valid_X, valid_y = valid_X[:N_VALID], valid_y[:N_VALID]
 
     vocab_size = len(w2i)
 

@@ -1,16 +1,17 @@
+import os
 import pickle
 import argparse
 
 import numpy as np
-import dynet as dy
 from tqdm import tqdm
 
 from utils import build_dataset
-from layers import SelectiveBiGRU, AttentionalGRU
 
 def main():
     parser = argparse.ArgumentParser(description='Selective Encoding for Abstractive Sentence Summarization in DyNet')
 
+    parser.add_argument('--gpu', type=int, default=-1, help='gpu id to use. for cpu, set -1 [default: -1]')
+    parser.add_argument('--n_test', type=int, default=100, help='number of test examples [default: 100]')
     parser.add_argument('--beam_size', type=int, default=5, help='beam size for decoding [default: 5]')
     parser.add_argument('--max_len', type=int, default=50, help='maximum length of decoding')
     parser.add_argument('--model_file', type=str, default='./model', help='model to use for generation [default: ./model]')
@@ -18,8 +19,19 @@ def main():
     parser.add_argument('--output_file', type=str, default='./pred_y.txt', help='output file path [default: ./pred_y.txt]')
     parser.add_argument('--w2i_file', type=str, default='./w2i.dump', help='w2i file path [default: ./w2i.dump]')
     parser.add_argument('--i2w_file', type=str, default='./i2w.dump', help='i2w file path [default: ./i2w.dump]')
+    parser.add_argument('--alloc_mem', type=int, default=1024, help='amount of memory to allocate[mb] [default: 1024]')
     args = parser.parse_args()
 
+    os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
+
+    if args.gpu < 0:
+        import _dynet as dy  # Use cpu
+    else:
+        import _gdynet as dy # Use gpu
+
+    from layers import SelectiveBiGRU, AttentionalGRU
+
+    N_TEST = args.n_test
     K = args.beam_size
     MAX_LEN = args.max_len
     W2I_FILE = args.w2i_file
@@ -27,6 +39,13 @@ def main():
     INPUT_FILE = args.input_file
     OUTPUT_FILE = args.output_file
     MODEL_FILE = args.model_file
+    ALLOC_MEM = args.alloc_mem
+
+    # DyNet setting
+    dyparams = dy.DynetParams()
+    dyparams.set_autobatch(True)
+    dyparams.set_mem(ALLOC_MEM)
+    dyparams.init()
 
     # Load model
     with open(W2I_FILE, 'rb') as f_w2i, open(I2W_FILE, 'rb') as f_i2w:
@@ -35,8 +54,8 @@ def main():
 
     test_X, _, _ = build_dataset(INPUT_FILE, w2i=w2i)
 
-    # # Use small dataset
-    #test_X = test_X[:50]
+    # Use small dataset
+    test_X = test_X[:N_TEST]
 
     model = dy.Model()
     encoder, decoder, V = dy.load(MODEL_FILE, model)
