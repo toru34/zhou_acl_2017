@@ -3,8 +3,9 @@ import time
 import argparse
 import pickle
 
-import _dynet as dy
 import numpy as np
+import _dynet as dy
+from tqdm import tqdm
 from sklearn.utils import shuffle
 
 from utils import build_word2count, build_dataset
@@ -18,7 +19,7 @@ def main():
     parser.add_argument('--n_epochs', type=int, default=3, help='number of epochs for training [default: 3]')
     parser.add_argument('--batch_size', type=int, default=16, help='batch size for training [default: 16]')
     parser.add_argument('--emb_dim', type=int, default=32, help='embedding size for each word [default: 32]')
-    parser.add_argument('--hid_dim', type=int, default=32, help='hidden state size for both encoder and decoder [default: 32]')
+    parser.add_argument('--hid_dim', type=int, default=32, help='hidden state size [default: 32]')
     parser.add_argument('--vocab_size', type=int, default=10000, help='vocabulary size [default: 10000]')
     parser.add_argument('--maxout_dim', type=int, default=5, help='maxout size [default: 5]')
     parser.add_argument('--alloc_mem', type=int, default=1024, help='amount of memory to allocate[mb] [default: 1024]')
@@ -30,12 +31,12 @@ def main():
     BATCH_SIZE = args.batch_size
     MAXOUT_DIM = args.maxout_dim
     N_EPOCHS = args.n_epochs
-    MEMORY_SIZE = args.alloc_mem
+    ALLOC_MEM = args.alloc_mem
 
     # DyNet setting
     dyparams = dy.DynetParams()
     dyparams.set_autobatch(True)
-    dyparams.set_mem(MEMORY_SIZE)
+    dyparams.set_mem(ALLOC_MEM)
     dyparams.set_random_seed(RANDOM_STATE)
     dyparams.init()
 
@@ -73,7 +74,7 @@ def main():
         # Train
         train_X, train_y = shuffle(train_X, train_y, random_state=RANDOM_STATE)
         loss_all_train = []
-        for i in range(n_batches_train):
+        for i in tqdm(range(n_batches_train)):
             # Create a new computation graph
             dy.renew_cg()
             encoder.associate_parameters()

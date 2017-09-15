@@ -23,9 +23,14 @@ def encode(sentence, w2i):
 def build_dataset(file_path, vocab_size=10000, w2c=None, w2i=None, target=False):
     if w2i is None:
         sorted_w2c = sorted(w2c.items(), key=lambda x: -x[1])
-        w2i = {w: np.int32(i+3) for i, (w, c) in enumerate(sorted_w2c[:vocab_size-3])}
-        w2i['<s>'], w2i['</s>'] = np.int32(0), np.int32(1)
-        w2i['<unk>'] = np.int32(2)
+        sorted_w = [w for w, c in sorted_w2c]
+        if '<unk>' in sorted_w:
+            w2i = {w: np.int32(i+2) for i, w in enumerate(sorted_w[:vocab_size-2])}
+            w2i['<s>'], w2i['</s>'] = np.int32(0), np.int32(1)
+        else:
+            w2i = {w: np.int32(i+3) for i, w in enumerate(sorted_w[:vocab_size-3])}
+            w2i['<s>'], w2i['</s>'] = np.int32(0), np.int32(1)
+            w2i['<unk>'] = np.int32(2)
 
     data = []
     for line in open(file_path, encoding='utf-8'):
