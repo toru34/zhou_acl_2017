@@ -1,21 +1,21 @@
+import os
 import math
 import time
 import argparse
 import pickle
 
 import numpy as np
-import _dynet as dy
 from tqdm import tqdm
 from sklearn.utils import shuffle
 
 from utils import build_word2count, build_dataset
-from layers import SelectiveBiGRU, AttentionalGRU
 
 RANDOM_STATE = 42
 
 def main():
     parser = argparse.ArgumentParser(description='Selective Encoding for Abstractive Sentence Summarization in DyNet')
 
+    parser.add_argument('--gpu', type=int, default=-1, help='gpu id to use. for cpu, set -1 [default: -1]')
     parser.add_argument('--n_epochs', type=int, default=3, help='number of epochs for training [default: 3]')
     parser.add_argument('--batch_size', type=int, default=16, help='batch size for training [default: 16]')
     parser.add_argument('--emb_dim', type=int, default=32, help='embedding size for each word [default: 32]')
@@ -24,6 +24,15 @@ def main():
     parser.add_argument('--maxout_dim', type=int, default=5, help='maxout size [default: 5]')
     parser.add_argument('--alloc_mem', type=int, default=1024, help='amount of memory to allocate[mb] [default: 1024]')
     args = parser.parse_args()
+
+    os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
+
+    if args.gpu < 0:
+        import _dynet as dy  # Use cpu
+    else:
+        import _gdynet as dy # Use gpu
+
+    from layers import SelectiveBiGRU, AttentionalGRU
 
     vocab_size = args.vocab_size
     EMB_DIM = args.emb_dim

@@ -1,5 +1,8 @@
-import _dynet as dy
-
+import os
+if int(os.environ['CUDA_VISIBLE_DEVICES']) < 0:
+    import _dynet as dy  # Use cpu
+else:
+    import _gdynet as dy # Use gpu
 
 class SelectiveBiGRU:
     def __init__(self, emb_dim, hid_dim, model):
