@@ -21,20 +21,18 @@ sh download.sh
 - `--gpu`: GPU id to use. For cpu, set -1 [default: -1]
 - `--n_train`: Number of training examples (up to 3803957 in gigaword) [default: 100000]
 - `--n_valid`: Number of validation examples (up to 189651 in gigaword) [default: 100]
-- `--n_epochs`: Number of epochs for training [default: 3]
+- `--n_epochs`: Number of epochs for training [default: 20]
 - `--batch_size`: Batch size for training [default: 16]
-- `--emb_dim`: Embedding size for each word [default: 32]
-- `--hid_dim`: Hidden state for both encoder and decoder [default: 32]
-- `--vocab_size`: Vocabulary size [default: 10000]
+- `--emb_dim`: Embedding size for each word [default: 256]
+- `--hid_dim`: Hidden state for both encoder and decoder [default: 256]
+- `--vocab_size`: Vocabulary size [default: 60000]
 - `--maxout_dim`: Maxout size [default: 5]
-- `--alloc_mem`: Amount of memory to allocate[mb] [default: 1024]
+- `--alloc_mem`: Amount of memory to allocate[mb] [default: 4096]
 
-### How to train
-For example, run
+### How to train (example)
 ```
 python train.py --n_epochs 20 --gpu 0
 ```
-, and then you get `model.data`, `model.meta`, `w2i.dump` and `i2w.dump`.
 
 ### Test
 #### Arguments for test
