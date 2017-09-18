@@ -11,7 +11,7 @@ DyNet implementation of the paper Selective Encoding for Abstractive Sentence Su
 ### Prepare dataset
 To get gigaward corpus, run
 ```
-sh download.sh
+sh download_giga.sh
 ```
 . Or you can use your own corpus.
 
