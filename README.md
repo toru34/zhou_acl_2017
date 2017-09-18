@@ -31,7 +31,7 @@ sh download.sh
 
 ### How to train (example)
 ```
-python train.py --n_epochs 20 --gpu 0
+python train.py --n_epochs 20
 ```
 
 ### Test
@@ -49,7 +49,7 @@ python train.py --n_epochs 20 --gpu 0
 
 ### How to test (example)
 ```
-python test.py --beam_size 10 --gpu 0
+python test.py --beam_size 10
 ```
 
 ### Reference
