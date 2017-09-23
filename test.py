@@ -3,9 +3,11 @@ import pickle
 import argparse
 
 import numpy as np
+import _dynet as dy
 from tqdm import tqdm
 
 from utils import build_dataset
+from layers import SelectiveBiGRU, AttentionalGRU
 
 def main():
     parser = argparse.ArgumentParser(description='Selective Encoding for Abstractive Sentence Summarization in DyNet')
@@ -23,13 +25,6 @@ def main():
     args = parser.parse_args()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
-
-    if args.gpu < 0:
-        import _dynet as dy  # Use cpu
-    else:
-        import _gdynet as dy # Use gpu
-
-    from layers import SelectiveBiGRU, AttentionalGRU
 
     N_TEST = args.n_test
     K = args.beam_size

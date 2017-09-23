@@ -5,10 +5,12 @@ import argparse
 import pickle
 
 import numpy as np
+import _dynet as dy
 from tqdm import tqdm
 from sklearn.utils import shuffle
 
 from utils import build_word2count, build_dataset
+from layers import SelectiveBiGRU, AttentionalGRU
 
 RANDOM_STATE = 42
 
@@ -28,13 +30,6 @@ def main():
     args = parser.parse_args()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = str(args.gpu)
-
-    if args.gpu < 0:
-        import _dynet as dy  # Use cpu
-    else:
-        import _gdynet as dy # Use gpu
-
-    from layers import SelectiveBiGRU, AttentionalGRU
 
     vocab_size = args.vocab_size
     N_TRAIN = args.n_train
