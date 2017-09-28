@@ -12,7 +12,8 @@ from sklearn.utils import shuffle
 from utils import build_word2count, build_dataset
 from layers import SelectiveBiGRU, AttentionalGRU
 
-RANDOM_STATE = 42
+RANDOM_STATE = 34
+np.random.seed(RANDOM_STATE)
 
 def main():
     parser = argparse.ArgumentParser(description='Selective Encoding for Abstractive Sentence Summarization in DyNet')
@@ -80,7 +81,7 @@ def main():
 
     for epoch in range(N_EPOCHS):
         # Train
-        train_X, train_y = shuffle(train_X, train_y, random_state=RANDOM_STATE)
+        train_X, train_y = shuffle(train_X, train_y)
         loss_all_train = []
         for i in tqdm(range(n_batches_train)):
             # Create a new computation graph
@@ -162,11 +163,11 @@ def main():
             end_time-start_time,
         ))
 
-    # Save model =================================================================================
-    dy.save('./model', [encoder, decoder, V])
-    with open('./w2i.dump', 'wb') as f_w2i, open('./i2w.dump', 'wb') as f_i2w:
-        pickle.dump(w2i, f_w2i)
-        pickle.dump(i2w, f_i2w)
+        # Save model =================================================================================
+        dy.save('./model', [encoder, decoder, V])
+        with open('./w2i.dump', 'wb') as f_w2i, open('./i2w.dump', 'wb') as f_i2w:
+            pickle.dump(w2i, f_w2i)
+            pickle.dump(i2w, f_i2w)
 
 if __name__ == '__main__':
     main()
