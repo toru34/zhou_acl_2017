@@ -68,7 +68,7 @@ class AttentionalGRU:
             x_tm1 = x
             s_tm1 = tm1s[0]
             c_tm1 = tm1s[1]
-            GRU = self.GRUBuilder.initial_state([s_tm1])
+            GRU = self.GRUBuilder.initial_state().set_s([s_tm1])
 
             s_t_state = GRU.add_input(dy.concatenate([x_tm1, c_tm1]))
             s_t = s_t_state.output()
