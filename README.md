@@ -18,16 +18,15 @@ sh download_giga.sh
 ### 3. Training
 
 #### Arguments
-- `--gpu`: GPU id to use. For cpu, set -1 [default: -1]
-- `--n_train`: Number of training examples (up to 3803957 in gigaword) [default: 100000]
-- `--n_valid`: Number of validation examples (up to 189651 in gigaword) [default: 100]
-- `--n_epochs`: Number of epochs for training [default: 20]
-- `--batch_size`: Batch size for training [default: 32]
-- `--emb_dim`: Embedding size for each word [default: 256]
-- `--hid_dim`: Hidden state for both encoder and decoder [default: 256]
-- `--vocab_size`: Vocabulary size [default: 60000]
-- `--maxout_dim`: Maxout size [default: 5]
-- `--alloc_mem`: Amount of memory to allocate[mb] [default: 8192]
+- `--gpu`: GPU ID to use. For cpu, set `-1` [default: `0`]
+- `--n_epochs`: Number of epochs [default: `3`]
+- `--n_train`: Number of training data (up to `3803957`) [default: `3803957`]
+- `--n_valid`: Number of validation data (up to `189651`) [default: `189651`]
+- `--batch_size`: Mini batch size [default: `32`]
+- `--emb_dim`: Embedding size [default: `256`]
+- `--hid_dim`: Hidden state size [default: `256`]
+- `--maxout_dim`: Maxout size [default: `5`]
+- `--alloc_mem`: Amount of memory to allocate [mb] [default: `8192`]
 
 #### Command example
 ```
@@ -36,16 +35,16 @@ python train.py --n_epochs 20
 
 ### 4. Test
 #### Arguments
-- `--gpu`: GPU id to use. For cpu, set -1 [default: -1]
-- `--n_test`: Number of test examples [default: 100]
-- `--beam_size`: Beam size for decoding [default: 5]
-- `--max_len`: Maximum length of decoding [default: 50]
-- `--model_file`: Model to use for generation [default: ./model]
-- `--input_file`: Input file path [default: ./data/valid.article.filter.txt]
-- `--output_file`: Output file path [default: ./data/pred.txt]
-- `--w2i_file`: Word2Index file path [default: ./w2i.dump]
-- `--i2w_file`: Index2Word file path [default: ./i2w.dump]
-- `--alloc_mem`: Amount of memory to allocate[mb] [default: 1024]
+- `--gpu`: GPU ID to use. For cpu, set `-1` [default: `0`]
+- `--n_test`: Number of test data [default: `189651`]
+- `--beam_size`: Beam size [default: `5`]
+- `--max_len`: Maximum length of decoding [default: `100`]
+- `--model_file`: Trained model file path [default: `./model_e1`]
+- `--input_file`: Test file path [default: `./data/valid.article.filter.txt`]
+- `--output_file`: Output file path [default: `./pred_y.txt`]
+- `--w2i_file`: Word2Index file path [default: `./w2i.dump`]
+- `--i2w_file`: Index2Word file path [default: `./i2w.dump`]
+- `--alloc_mem`: Amount of memory to allocate [mb] [default: `1024`]
 
 #### Command example
 ```
