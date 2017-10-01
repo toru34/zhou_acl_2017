@@ -9,6 +9,7 @@ data/*
 tmp.py
 *.gz
 sumdata/*
+_*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
