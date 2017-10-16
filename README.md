@@ -22,12 +22,12 @@ sh download_giga.sh
 - `--n_epochs`: Number of epochs [default: `3`]
 - `--n_train`: Number of training data (up to `3803957`) [default: `3803957`]
 - `--n_valid`: Number of validation data (up to `189651`) [default: `189651`]
-- `--vocab_size`: Vocabulary size [default: `60000`]
+- `--vocab_size`: Vocabulary size [default: `124404`]
 - `--batch_size`: Mini batch size [default: `32`]
 - `--emb_dim`: Embedding size [default: `256`]
 - `--hid_dim`: Hidden state size [default: `256`]
-- `--maxout_dim`: Maxout size [default: `5`]
-- `--alloc_mem`: Amount of memory to allocate [mb] [default: `8192`]
+- `--maxout_dim`: Maxout size [default: `2`]
+- `--alloc_mem`: Amount of memory to allocate [mb] [default: `10000`]
 
 #### Command example
 ```
@@ -56,14 +56,11 @@ python test.py --beam_size 10
 You can use pythonrouge[3] to compute the ROUGE scores.
 
 ### 6. Results
-The model was trained with the full training data in [3]. ROUGE scores are obtained with `pythonrouge`.
+<!-- The model was trained with the full training data in [3]. ROUGE scores are obtained with `pythonrouge`. -->
+Work in progress.
 
 #### 6.1. Gigaword
-
-|                 |ROUGE-1 (F1)|ROUGE-2 (F1)|ROUGE-L (F1)|
-|-----------------|:-----:|:-----:|:-----:|
-|Original paper [1]| 36.25|17.61|33.55|
-|My implementation| ???| ???|???|
+Work in progress.
 
 #### 6.2. DUC2004
 Work in progress.
@@ -72,15 +69,7 @@ Work in progress.
 Work in progress.
 
 ### 7. Pretrained model
-To get the pretrained model, run
-```
-sh download_pretrained_model.sh
-```
-.
-<!-- This model was trained with
-```
-
-``` -->
+Work in progress.
 
 ### Notes
 

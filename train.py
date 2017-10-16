@@ -24,8 +24,8 @@ def main():
     parser.add_argument('--vocab_size', type=int, default=124404, help='Vocabulary size [default: 124404]')
     parser.add_argument('--emb_dim', type=int, default=256, help='Embedding size [default: 256]')
     parser.add_argument('--hid_dim', type=int, default=256, help='Hidden state size [default: 256]')
-    parser.add_argument('--maxout_dim', type=int, default=5, help='Maxout size [default: 2]')
-    parser.add_argument('--alloc_mem', type=int, default=8192, help='Amount of memory to allocate [mb] [default: 8192]')
+    parser.add_argument('--maxout_dim', type=int, default=2, help='Maxout size [default: 2]')
+    parser.add_argument('--alloc_mem', type=int, default=10000, help='Amount of memory to allocate [mb] [default: 10000]')
     args = parser.parse_args()
     print(args)
 
