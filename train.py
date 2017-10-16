@@ -78,11 +78,11 @@ def main():
 
     # Train model
     start_time = time.time()
-    for epoch in tqdm(range(N_EPOCHS)):
+    for epoch in range(N_EPOCHS):
         # Train
         loss_all_train = []
         dataset.reset_train_iter()
-        for train_x_mb, train_y_mb in dataset.train_iter:
+        for train_x_mb, train_y_mb in tqdm(dataset.train_iter):
             # Create a new computation graph
             dy.renew_cg()
             associate_parameters([encoder, decoder])
