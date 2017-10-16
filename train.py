@@ -21,7 +21,7 @@ def main():
     parser.add_argument('--n_train', type=int, default=3803957, help='Number of training data (up to 3803957 in gigaword) [default: 3803957]')
     parser.add_argument('--n_valid', type=int, default=189651, help='Number of validation data (up to 189651 in gigaword) [default: 189651])')
     parser.add_argument('--batch_size', type=int, default=32, help='Mini batch size [default: 32]')
-    parser.add_argument('--vocab_size', type=int, default=124404, help='Vocabulary size [default: 60000]')
+    parser.add_argument('--vocab_size', type=int, default=124404, help='Vocabulary size [default: 124404]')
     parser.add_argument('--emb_dim', type=int, default=256, help='Embedding size [default: 256]')
     parser.add_argument('--hid_dim', type=int, default=256, help='Hidden state size [default: 256]')
     parser.add_argument('--maxout_dim', type=int, default=5, help='Maxout size [default: 2]')
@@ -66,6 +66,7 @@ def main():
         n_valid=N_VALID
     )
     VOCAB_SIZE = len(dataset.w2i)
+    print('VOCAB_SIZE', VOCAB_SIZE)
 
     # Build model
     model = dy.Model()
@@ -77,7 +78,7 @@ def main():
 
     # Train model
     start_time = time.time()
-    for epoch in range(N_EPOCHS):
+    for epoch in tqdm(range(N_EPOCHS)):
         # Train
         loss_all_train = []
         dataset.reset_train_iter()
@@ -144,10 +145,11 @@ def main():
             # Forward prop
             loss_all_valid.append(mb_loss.value())
 
-        print('EPOCH: %d, Train Loss: %.3f, Valid Loss: %.3f' % (
+        print('EPOCH: %d, Train Loss: %.3f, Valid Loss: %.3f, Time: %.3f[s]' % (
             epoch+1,
             np.mean(loss_all_train),
-            np.mean(loss_all_valid)
+            np.mean(loss_all_valid),
+            time.time()-start_time
         ))
 
         # Save model

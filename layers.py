@@ -88,10 +88,10 @@ class AttentionalGRU:
             # Attention
             e_t = dy.pick(self.va*dy.tanh(dy.colwise_add(self.Ua*self.hp, self.Wa*s_tm1)), 0)
             a_t = dy.softmax(e_t)
-            c_t = dy.esum(
-                [dy.cmult(a_t_i, h_i) for a_t_i, h_i in zip(a_t, dy.transpose(self.hp))]
-            )
-            # c_t = self.hp*a_t # memory error?
+            #c_t = dy.esum(
+            #    [dy.cmult(a_t_i, h_i) for a_t_i, h_i in zip(a_t, dy.transpose(self.hp))]
+            #)
+            c_t = self.hp*a_t # memory error?
 
             # Output
             r_t = dy.concatenate_cols(
@@ -118,10 +118,10 @@ class AttentionalGRU:
                 # Attention
                 e_t = dy.pick(self.va*dy.tanh(dy.colwise_add(self.Ua*self.hp, self.Wa*s_tm1)), 0)
                 a_t = dy.softmax(e_t)
-                c_t = dy.esum(
-                    [dy.cmult(a_t_i, h_i) for a_t_i, h_i in zip(a_t, dy.transpose(self.hp))]
-                )
-                # c_t = self.hp*a_t # memory error?
+                #c_t = dy.esum(
+                #    [dy.cmult(a_t_i, h_i) for a_t_i, h_i in zip(a_t, dy.transpose(self.hp))]
+                #)
+                c_t = self.hp*a_t # memory error?
 
                 # Output
                 r_t = dy.concatenate_cols(
