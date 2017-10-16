@@ -1,5 +1,6 @@
 # toru34
-*.ipynb
+sandbox*
+main*
 .DS_Store
 data/*
 *.data
@@ -10,6 +11,8 @@ tmp.py
 *.gz
 sumdata/*
 _*
+results
+*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

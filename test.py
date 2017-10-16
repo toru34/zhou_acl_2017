@@ -6,23 +6,23 @@ import numpy as np
 import _dynet as dy
 from tqdm import tqdm
 
-from utils import build_dataset
+from utils import build_dataset, np_log, associate_parameters
 
-RANDOM_STATE = 34
+RANDOM_SEED = 34
 
 def main():
     parser = argparse.ArgumentParser(description='Deep Recurrent Generative Decoder for Abstractive Text Summarization in DyNet')
 
-    parser.add_argument('--gpu', type=str, default='0', help='GPU ID to use. For cpu, set -1 [default: `-`]')
-    parser.add_argument('--n_test', type=int, default=189651, help='Number of test examples [default: `189651`]')
-    parser.add_argument('--beam_size', type=int, default=5, help='Beam size [default: `5`]')
-    parser.add_argument('--max_len', type=int, default=100, help='Maximum length of decoding [default: `100`]')
-    parser.add_argument('--model_file', type=str, default='./model_e1', help='Trained model file path [default: `./model_e1`]')
-    parser.add_argument('--input_file', type=str, default='./data/valid.article.filter.txt', help='Test file path [default: `./data/valid.article.filter.txt`]')
-    parser.add_argument('--output_file', type=str, default='./pred_y.txt', help='Output file path [default: `./pred_y.txt`]')
-    parser.add_argument('--w2i_file', type=str, default='./w2i.dump', help='Word2Index file path [default: `./w2i.dump`]')
-    parser.add_argument('--i2w_file', type=str, default='./i2w.dump', help='Index2Word file path [default: `./i2w.dump`]')
-    parser.add_argument('--alloc_mem', type=int, default=1024, help='Amount of memory to allocate [mb] [default: `1024`]')
+    parser.add_argument('--gpu', type=str, default='0', help='GPU ID to use. For cpu, set -1 [default: -]')
+    parser.add_argument('--n_test', type=int, default=189651, help='Number of test examples [default: 189651]')
+    parser.add_argument('--beam_size', type=int, default=5, help='Beam size [default: 5]')
+    parser.add_argument('--max_len', type=int, default=100, help='Maximum length of decoding [default: 100]')
+    parser.add_argument('--model_file', type=str, default='./model_e1', help='Trained model file path [default: ./model_e1]')
+    parser.add_argument('--input_file', type=str, default='./data/valid.article.filter.txt', help='Test file path [default: ./data/valid.article.filter.txt]')
+    parser.add_argument('--output_file', type=str, default='./pred_y.txt', help='Output file path [default: ./pred_y.txt]')
+    parser.add_argument('--w2i_file', type=str, default='./w2i.dump', help='Word2Index file path [default: ./w2i.dump]')
+    parser.add_argument('--i2w_file', type=str, default='./i2w.dump', help='Index2Word file path [default: ./i2w.dump]')
+    parser.add_argument('--alloc_mem', type=int, default=1024, help='Amount of memory to allocate [mb] [default: 1024]')
     args = parser.parse_args()
 
     os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
@@ -42,7 +42,7 @@ def main():
     # DyNet setting
     dyparams = dy.DynetParams()
     dyparams.set_autobatch(True)
-    dyparams.set_random_seed(RANDOM_STATE)
+    dyparams.set_random_seed(RANDOM_SEED)
     dyparams.set_mem(ALLOC_MEM)
     dyparams.init()
 
@@ -51,27 +51,24 @@ def main():
         w2i = pickle.load(f_w2i)
         i2w = pickle.load(f_i2w)
 
-    test_X, _, _ = build_dataset(INPUT_FILE, w2i=w2i, n_data=N_TEST)
+    test_X, _, _ = build_dataset(INPUT_FILE, w2i=w2i, n_data=N_TEST, target=False)
 
     model = dy.Model()
     V, encoder, decoder = dy.load(MODEL_FILE, model)
 
+    # Decode
     pred_y = []
-    for instance_x in tqdm(test_X):
+    for x in tqdm(test_X):
         dy.renew_cg()
-        encoder.associate_parameters()
-        decoder.associate_parameters()
-
-        x_embs = [dy.lookup(V, x_t) for x_t in instance_x]
+        associate_parameters([encoder, decoder])
 
         # Initial states
-        h = encoder(x_embs)
-        h_b_0 = encoder.h_b[0]
-        decoder.set_init_states(h, h_b_0)
-        s_0 = decoder.s_0
-        c_0 = decoder.c_0
+        x_embs = [dy.lookup(V, x_t) for x_t in x]
+        hp, hb_1 = encoder(x_embs)
+        decoder.set_initial_states(hp, hb_1)
+        s_0, c_0 = decoder.s_0, decoder.c_0
 
-        # [accum log prob, BOS, initial hidden state, initial contect vector, decoded sequence]
+        # candidates
         candidates = [[0, w2i['<s>'], s_0, c_0, []]]
 
         t = 0
@@ -94,11 +91,13 @@ def main():
                     )
             if end_flag:
                 break
-            candidates = sorted(tmp_candidates, key=lambda x: -x[0]/len(x[4]))[:K] # Sort in normalized log probs and pick K highest candidates
+            candidates = sorted(tmp_candidates, key=lambda x: -x[0]/len(x[-1]))[:K] # Sort in normalized log probs and pick K highest candidates
 
-
-        # Pick the candidate with the highest log prob
-        pred_y.append(candidates[0][-1])
+        # Pick the candidate with the highest score
+        pred = candidates[0][-1]
+        if w2i['</s>'] in pred:
+            pred.remove(w2i['</s>'])
+        pred_y.append(pred)
 
     pred_y_txt = ''
     for pred in pred_y:
