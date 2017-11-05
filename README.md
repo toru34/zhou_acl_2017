@@ -56,11 +56,10 @@ python test.py --beam_size 10
 You can use pythonrouge[3] to compute the ROUGE scores.
 
 ### 6. Results
-<!-- The model was trained with the full training data in [3]. ROUGE scores are obtained with `pythonrouge`. -->
-Work in progress.
-
-#### 6.1. Gigaword
-Work in progress.
+#### 6.1. Gigaword (validation data)
+|                 |ROUGE-1 (F1)|ROUGE-2 (F1)|ROUGE-L (F1)|
+|-----------------|:-----:|:-----:|:-----:|
+|My implementation| 44.33| 19.57| 41.3|
 
 #### 6.2. DUC2004
 Work in progress.
@@ -69,7 +68,11 @@ Work in progress.
 Work in progress.
 
 ### 7. Pretrained model
-Work in progress.
+To get the pretrained model, run
+```
+sh download_pretrained_model.sh
+```
+.
 
 ### Notes
 
